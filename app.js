@@ -1,7 +1,7 @@
 console.log("sdfasdfasdfsadf");
 
-function abc() {
-  if (true) {
-    const a = 123;
-  }
-}
+// function abc() {
+//   if (true) {
+//     const a = 123;
+//   }
+// }
