@@ -6,11 +6,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const apiMocker = require("connect-api-mocker");
+const OptimizeCSSAssertsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
+const mode = process.env.NODE_ENV || "development";
 
 module.exports = {
-  mode: "development",
+  mode,
   entry: {
     main: "./src/app.js",
+    // result: "./src/result.js",
   },
   output: {
     path: path.resolve("./dist"),
@@ -23,6 +29,27 @@ module.exports = {
       app.use(apiMocker("/api", "mocks/api"));
     },
     hot: true,
+  },
+  optimization: {
+    minimizer:
+      mode === "production"
+        ? [
+            new OptimizeCSSAssertsPlugin(),
+            new TerserPlugin({
+              terserOptions: {
+                compress: {
+                  drop_console: true, // 콘솔 로그 제거
+                },
+              },
+            }),
+          ]
+        : [],
+    // splitChunks: {
+    //   chunks: "all",
+    // },
+  },
+  externals: {
+    axios: "axios",
   },
   module: {
     rules: [
@@ -38,10 +65,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          process.env.NODE_ENV === "production"
-            ? MiniCssExtractPlugin.loader
-            : "style-loader",
-          "css-loader",
+          {
+            loader:
+              process.env.NODE_ENV === "production"
+                ? MiniCssExtractPlugin.loader
+                : "style-loader",
+            options: {
+              publicPath: "",
+            },
+          },
+          {
+            loader: "css-loader",
+          },
         ],
       },
       // {
@@ -95,5 +130,11 @@ module.exports = {
     ...(process.env.NODE_ENV === "production"
       ? [new MiniCssExtractPlugin({ filename: "[name].css" })]
       : []),
+    new CopyPlugin([
+      {
+        from: "./node_modules/axios/dist/axios.min.js",
+        to: "./axios.min.js",
+      },
+    ]),
   ],
 };

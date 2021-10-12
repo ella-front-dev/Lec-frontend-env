@@ -32,7 +32,7 @@
 //   }).join("");
 // });
 
-/* 핫모듈 적용 */
+/* 최적화 */
 import form from "./form";
 import result from "./result";
 
@@ -47,8 +47,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   resultEl = document.createElement("div");
   resultEl.innerHTML = await result.render();
   document.body.appendChild(resultEl);
+
+  /* 다이나믹 import */
+  // import(
+  //   /*webpackChunkName: "result" */ "./result.js".then(async (m) => {
+  //     const result = m.default;
+  //     resultEl = document.createElement("div");
+  //     resultEl.innerHTML = await result.render();
+  //     document.body.appendChild(resultEl);
+  //   })
+  // );
 });
 
+/* 핫모듈 적용 */
 if (module.hot) {
   console.log("핫모듈 켜짐");
   module.hot.accept("./result", async () => {
@@ -58,3 +69,4 @@ if (module.hot) {
     formEl.innerHTML = form.render();
   });
 }
+console.log("webpack");

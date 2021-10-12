@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack --progress",
     "lint": "eslint src --fix",
     "start": "webpack-dev-server --progress"
   },
@@ -26,6 +26,7 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0",
     "connect-api-mocker": "^1.10.0",
+    "copy-webpack-plugin": "^5.1.1",
     "core-js": "^2.6.12",
     "css-loader": "^3.4.2",
     "eslint": "^7.32.0",
@@ -34,8 +35,10 @@
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "^2.4.1",
     "style-loader": "^1.1.3",
+    "terser-webpack-plugin": "^2.3.5",
     "url-loader": "^4.1.1",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.12",
