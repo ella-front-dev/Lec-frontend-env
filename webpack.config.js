@@ -22,13 +22,14 @@ module.exports = {
     before: (app) => {
       app.use(apiMocker("/api", "mocks/api"));
     },
+    hot: true,
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        use: [path.resolve("./my-webpack-loader.js")],
-      },
+      // {
+      //   test: /\.js$/,
+      //   use: [path.resolve("./my-webpack-loader.js")],
+      // },
       {
         test: /\.js$/,
         loader: "babel-loader",
