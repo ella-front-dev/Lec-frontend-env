@@ -25,7 +25,6 @@
   "mini-css-extract-plugin": "^0.9.0",
   "terser-webpack-plugin": "^2.3.5",
 
- 
  # Babel
   "@babel/cli": "^7.15.7",
   "@babel/core": "^7.15.8",
